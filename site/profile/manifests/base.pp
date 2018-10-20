@@ -2,10 +2,8 @@ class profile::base {
   #the base profile should include component modules that will be on all nodes
 	$_operatingsystem = downcase($::facts['os']['name'])
   $_oscodename = downcase($::facts['os']['distro']['codename'])
-  exec { 'apt_update': 
-    command => '/usr/bin/apt-get update',
-    returns => 0,
-  }
+
+  
   apt::source { 'influxdb':
     location     => 'https://repos.influxdata.com/${_operatingsystem}',
     repos        => 'stable',
@@ -15,8 +13,10 @@ class profile::base {
 			'source'   => 'https://repos.influxdata.com/influxdb.key',
 		},
   } ->
+  exec { 'apt_update': 
+    command => '/usr/bin/apt-get update',
+  } ->
   package { 'influxdb':
-    ensure  => 'latest',
-    require => Exec['apt_update'],
+    ensure  => installed,
   }
 }
