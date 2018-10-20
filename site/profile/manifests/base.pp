@@ -13,9 +13,7 @@ class profile::base {
 			'source'   => 'https://repos.influxdata.com/influxdb.key',
 		},
   } ->
-  exec { 'apt_update': 
-    command => '/usr/bin/apt-get update',
-  } ->
+  
   package { 'influxdb':
     ensure  => installed,
   }
