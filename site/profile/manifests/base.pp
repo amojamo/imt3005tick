@@ -13,9 +13,11 @@ class profile::base {
 			'source'   => 'https://repos.influxdata.com/influxdb.key',
 		},
   } ->
-  
   package { 'influxdb':
     ensure  => latest,
+  }
+  package { 'influxdb-client':
+    ensure => latest,
   }
   file { '/tmp/eeeeee':
     ensure => present,
