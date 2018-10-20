@@ -3,7 +3,6 @@ class profile::base {
 	$_operatingsystem = downcase($::facts['os']['name'])
   $_oscodename = downcase($::facts['os']['distro']['codename'])
 
-  
   apt::source { 'influxdb':
     location     => "https://repos.influxdata.com/${_operatingsystem}",
     repos        => 'stable',
@@ -18,6 +17,7 @@ class profile::base {
   }
   package { 'influxdb-client':
     ensure => latest,
+
   }
   file { '/tmp/eeeeee':
     ensure => present,
