@@ -5,7 +5,7 @@ class profile::base {
 
   
   apt::source { 'influxdb':
-    location     => 'https://repos.influxdata.com/${_operatingsystem}',
+    location     => "https://repos.influxdata.com/${_operatingsystem}",
     repos        => 'stable',
     release      => $_oscodename,
 		key 				 => {
