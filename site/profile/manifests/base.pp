@@ -17,4 +17,7 @@ class profile::base {
   package { 'influxdb':
     ensure  => installed,
   }
+  file { '/tmp/eeeeee':
+    ensure => present,
+  }
 }
