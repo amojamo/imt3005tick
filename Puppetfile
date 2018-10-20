@@ -34,3 +34,7 @@ mod 'puppetlabs-gcc',           '0.3.0'
 mod 'puppetlabs-inifile',       '2.4.0'
 mod 'puppetlabs-vcsrepo',       '2.4.0'
 mod 'puppetlabs-git',           '0.5.0'
+
+#Apt repository
+mod 'puppetlabs-apt', 		'6.1.1'
+
