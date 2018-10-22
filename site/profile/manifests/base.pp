@@ -12,7 +12,7 @@ class profile::base {
 			'source'   => 'https://repos.influxdata.com/influxdb.key',
 		},
   } ->
-  package { ['influxdb','telegraf','kapacitor']:
+  package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => latest,
   }
 }
