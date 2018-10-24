@@ -5,7 +5,8 @@ class profile::tickmaster {
     ensure  => latest,
     Notify => Service['influxdb'],
   }
-#what is this
+
+  #Wait for InfluxDB to fully start
   exec { 'Wait for InfluxDB':
     command => '/bin/sleep 8',
   }
