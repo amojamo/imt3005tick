@@ -29,5 +29,5 @@ node 'puppet-agent' {
   # This is where you can declare classes for all nodes.
   # Example:
   include apt
-  class { 'profile::base': }
+  include influxdb
 }
