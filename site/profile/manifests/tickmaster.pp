@@ -3,9 +3,10 @@ class profile::tickmaster {
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => latest,
+    Notify => Service['influxdb'],
   }
-
-  exec { 'Watif for InfluxDB':
+#what is this
+  exec { 'Wait for InfluxDB':
     command => '/bin/sleep 8',
   }
   exec { 'Create admin user in InfluxDB':
