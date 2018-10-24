@@ -1,0 +1,3 @@
+class influxdb::config {
+	
+}
