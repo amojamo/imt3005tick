@@ -1,8 +1,8 @@
 
-class profile::tickmaster (
-  $admin_usr = lookup('infuxdb::admin_usr')
-  $admin_pwd = lookup('influxdb::admin_pwd')
-) {
+class profile::tickmaster {
+
+    $admin_usr = lookup('infuxdb::admin_usr')
+    $admin_pwd = lookup('influxdb::admin_pwd')
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => latest,
