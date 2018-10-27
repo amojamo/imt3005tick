@@ -1,5 +1,8 @@
 
-class profile::tickmaster {
+class profile::tickmaster (
+  String $admin_usr,
+  String $admin_pwd,
+) {
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => latest,
