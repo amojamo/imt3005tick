@@ -1,7 +1,7 @@
 
 class profile::tickmaster {
 
-    $admin_usr = lookup('infuxdb::admin_usr')
+    $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
