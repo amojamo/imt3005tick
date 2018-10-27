@@ -3,7 +3,7 @@ class profile::tickmaster {
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => latest,
-    Notify => Service['influxdb'],
+    notify => Service['influxdb'],
   }
 
   #Wait for InfluxDB to fully start
