@@ -1,7 +1,7 @@
 
 class profile::tickmaster (
-  String $admin_usr,
-  String $admin_pwd,
+  String $influxdb::admin_usr,
+  String $influxdb::admin_pwd,
 ) {
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
