@@ -22,7 +22,7 @@ class profile::tickmaster {
     ensure      => present,
     path      => '/etc/influxdb/influxdb.conf',
     section     => 'http',
-    setting     => 'auth-enabled'
+    setting     => 'auth-enabled',
     value       => 'true',
     indent_char   => " ",
     indent_width  => 2,
