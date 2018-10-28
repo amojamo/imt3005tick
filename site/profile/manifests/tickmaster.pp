@@ -41,7 +41,7 @@ class profile::tickmaster {
     ensure      => present,
     path => '/etc/telegraf/telegraf.conf',
     section => '[outputs.influxdb]',
-    setting => 'username',
+    setting => 'test',
     value => 'true',
     indent_char   => " ",
     indent_width  => 2,
