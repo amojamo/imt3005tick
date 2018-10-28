@@ -3,7 +3,7 @@ class profile::tickmaster {
 
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
-
+    notify{"/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}": }
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => latest,
     notify => Service['influxdb'],
@@ -19,7 +19,6 @@ class profile::tickmaster {
       #Exec['Wait for InfluxDB'],
       Package['influxdb'],
     ],
-    debug("/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}"),
     unless => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",
     
   }
