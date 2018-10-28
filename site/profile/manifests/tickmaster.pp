@@ -19,7 +19,7 @@ class profile::tickmaster {
       #Exec['Wait for InfluxDB'],
       Package['influxdb'],
     ],
-    alert("/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}")
+    debug("/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}"),
     unless => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",
     
   }
@@ -39,7 +39,7 @@ class profile::tickmaster {
   }
 
   ini_setting { 'telegrafconf influx user ':
-    path => '/etc/telegraf/telegraf.conf',
+    path => '/etc/telegraf/telegraf.conf',``
     indent_char   => " ",
     indent_width  => 2,
     section => 'outputs.influxdb',
