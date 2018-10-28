@@ -16,6 +16,7 @@ class profile::tickmaster {
   exec { 'Create admin user in InfluxDB':
     command => "/usr/bin/influx -execute 'CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES'",
     require => Exec['Wait for InfluxDB'],
+    logoutput => on_failure,
   }
   
   #Syntax from https://github.com/puppetlabs/puppetlabs-inifile
