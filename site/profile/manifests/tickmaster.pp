@@ -1,9 +1,5 @@
 
-class profile::tickmaster (
-
-  $cmd = 'influx -execute'
-
-){
+class profile::tickmaster {
 
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
@@ -18,7 +14,7 @@ class profile::tickmaster (
     command => '/bin/sleep 8',
   }
   exec { 'Create admin user in InfluxDB':
-    command => "${cmd} 'CREATE USER "${admin_usr}" WITH PASSWORD "${admin_pwd}" WITH ALL PRIVILEGES'",
+    command => "influx -execute 'CREATE USER ${admin_usr} WITH PASSWORD ${admin_pwd} WITH ALL PRIVILEGES'",
     require => Exec['Wait for InfluxDB'],
   }
   
