@@ -54,6 +54,7 @@ class profile::tickmaster {
     ensure  => running,
     enable  => true,
     require => Package['influxdb'],
+    before => Exec['Create admin user in InfluxDB'],
   }
 
 }
