@@ -10,13 +10,13 @@ class profile::tickmaster {
   } ->
 
   #Wait for InfluxDB to fully start
-  exec { 'Wait for InfluxDB':
-    command => '/bin/sleep 10',
-  } ->
+  #exec { 'Wait for InfluxDB':
+  #  command => '/bin/sleep 10',
+  #} ->
   exec { 'Create admin user in InfluxDB':
     command => "/usr/bin/influx -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
     require => [
-      Exec['Wait for InfluxDB'],
+      #Exec['Wait for InfluxDB'],
       Package['influxdb'],
     ],
     
