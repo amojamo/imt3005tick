@@ -7,12 +7,12 @@ class profile::tickmaster {
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => latest,
     notify => Service['influxdb'],
-  }
+  } ->
 
   #Wait for InfluxDB to fully start
   exec { 'Wait for InfluxDB':
-    command => '/bin/sleep 30',
-  }
+    command => '/bin/sleep 10',
+  } ->
   exec { 'Create admin user in InfluxDB':
     command => "/usr/bin/influx -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
     require => [
