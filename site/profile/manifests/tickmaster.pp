@@ -38,7 +38,7 @@ class profile::tickmaster {
   }
 
   ini_setting { 'telegrafconf influx user ':
-    path => '/etc/telegraf/telegraf.conf',``
+    path => '/etc/telegraf/telegraf.conf',
     indent_char   => " ",
     indent_width  => 2,
     section => 'outputs.influxdb',
