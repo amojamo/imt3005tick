@@ -19,6 +19,8 @@ class profile::tickmaster {
       #Exec['Wait for InfluxDB'],
       Package['influxdb'],
     ],
+    unless => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -
+n+3 | grep ${admin_usr}"
     
   }
   
