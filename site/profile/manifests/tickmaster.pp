@@ -20,7 +20,7 @@ class profile::tickmaster {
       Package['influxdb'],
     ],
     unless => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -
-n+3 | grep ${admin_usr}"
+n+3 | grep ${admin_usr}",
     
   }
   
