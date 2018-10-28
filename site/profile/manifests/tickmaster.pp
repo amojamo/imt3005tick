@@ -40,9 +40,9 @@ class profile::tickmaster {
   ini_setting { 'telegrafconf influx user ':
     ensure      => present,
     path => '/etc/telegraf/telegraf.conf',
-    section => '[outputs.influxdb]',
-    setting => 'username',
-    value => 'admin',
+    section => 'agent',
+    setting => 'round_interval',
+    value => 'false',
     indent_char   => " ",
     indent_width  => 2,
     notify => Service['telegraf'],
