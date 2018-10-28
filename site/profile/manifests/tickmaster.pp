@@ -43,8 +43,6 @@ class profile::tickmaster {
     section => 'outputs.influxdb',
     setting => 'username',
     value => '\"${admin_usr}\"',
-    setting => 'password',
-    value => '\"${admin_pwd}\"',
     notify => Service['telegraf'],
   }
    ini_setting { 'telegrafconf influx password':
