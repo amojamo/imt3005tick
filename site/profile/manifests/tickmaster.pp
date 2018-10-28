@@ -33,8 +33,20 @@ class profile::tickmaster {
     value       => 'true',
     indent_char   => " ",
     indent_width  => 2,
+    notify => Service['influxdb']
   }
 
+  ini_setting { 'telegrafconf':
+    path => '/etc/telegraf/telegraf.conf'
+    indent_char   => " ",
+    indent_width  => 2,
+    section => 'outputs.influxdb'
+    setting => 'username'
+    value => '\"${admin_usr}\"'
+    setting => 'password'
+    value => '\"${admin_pwd}\"'
+    notify => Service['telegraf'],
+  }
   #$defaults_telegraf = { 
   #  'path' => '/etc/telegraf/telegraf.conf',
   #  'indent_char' => " ",
