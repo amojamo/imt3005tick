@@ -14,7 +14,7 @@ class profile::tickmaster {
     command => '/bin/sleep 8',
   }
   exec { 'Create admin user in InfluxDB':
-    command => '/usr/bin/influx -execute "SHOW DATABASES"',
+    command => '/usr/bin/influx -execute "CREATE USER "$admin_usr" WITH PASSWORD "$admin_pwd" WITH ALL PRIVILEGES"',
     require => Exec['Wait for InfluxDB'],
   }
   
