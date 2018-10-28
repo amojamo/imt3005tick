@@ -19,7 +19,7 @@ class profile::tickmaster {
       Exec['Wait for InfluxDB'],
       Package['influxdb'],
     ],
-    }
+    
   }
   
   #Syntax from https://github.com/puppetlabs/puppetlabs-inifile
