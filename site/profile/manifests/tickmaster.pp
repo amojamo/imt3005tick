@@ -58,8 +58,8 @@ class profile::tickmaster {
   file_line {'username kapacitor':
     require => Package['kapacitor'],
     notify => Service['kapacitor'],
-    line      => "  password = \"${admin_pwd}\"",
-    path      => '/etc/telegraf/telegraf.conf',
+    line      => "  username = \"${admin_usr}\"",
+    path      => '/etc/kapacitor/kapacitor.conf',
     ensure   => 'present',
     match => 'username\ =\ ""',
   }
@@ -67,7 +67,7 @@ class profile::tickmaster {
     require => Package['kapacitor'],
     notify => Service['kapacitor'],
     line      => "  password = \"${admin_pwd}\"",
-    path      => '/etc/telegraf/telegraf.conf',
+    path      => '/etc/kapacitor/kapacitor.conf',
     ensure   => 'present',
     match => 'password\ =\ ""',
   }
