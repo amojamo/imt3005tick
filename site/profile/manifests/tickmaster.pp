@@ -36,18 +36,21 @@ class profile::tickmaster {
     indent_width  => 2,
     notify => Service['influxdb']
   }
-
+  #Hack solution since telegraf conf is wierd 
+  #basicall find this line and replace with new user and password
   file_line {'username telegraf':
     line      => "  username = \"${admin_usr}\"",
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
     match => '^\  #\ username',
+    notify => Service['telegraf'],
   }
   file_line {'password telegraf':
     line      => "  username = \"${admin_pwd}\"",
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
     match => '^\  #\ password',
+    notify => Service['telegraf'],
   }
 
 #  ini_setting { '[outputs.influxdb] user':
