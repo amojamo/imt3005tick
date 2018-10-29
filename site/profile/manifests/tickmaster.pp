@@ -38,13 +38,16 @@ class profile::tickmaster {
   }
 
   file_line {'username telegraf':
-    line      => "username = \"${admin_usr}\"",
+    line      => "  username = \"${admin_usr}\"",
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
     match => '^\  #\ username',
-    #multiple => undef, # 'true' or 'false'
-    #name     => undef,
-    #replace  => true, # 'true' or 'false'
+  }
+  file_line {'password telegraf':
+    line      => "  username = \"${admin_pwd}\"",
+    path      => '/etc/telegraf/telegraf.conf',
+    ensure   => 'present',
+    match => '^\  #\ password',
   }
 
 #  ini_setting { '[outputs.influxdb] user':
@@ -91,6 +94,7 @@ class profile::tickmaster {
     before => [
       Exec['Create admin user in InfluxDB'],
       File_line['username telegraf'],
+      File_line['password telegraf'],
       ],
     }
     }
