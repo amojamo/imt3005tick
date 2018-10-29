@@ -41,7 +41,7 @@ class profile::tickmaster {
     ensure      => present,
     require => Package['telegraf'],
     path => '/etc/telegraf/telegraf.conf',
-    section => '\[outputs.influxdb\]',
+    section => 'outputs.influxdb',
     setting => 'test',
     value => 'true',
     indent_char   => " ",
