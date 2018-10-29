@@ -41,7 +41,7 @@ class profile::tickmaster {
     line      => "username = \"${admin_usr}\"",
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
-    match => '^#\ username="admin"',
+    match => '^\  #\ username',
     #multiple => undef, # 'true' or 'false'
     #name     => undef,
     #replace  => true, # 'true' or 'false'
