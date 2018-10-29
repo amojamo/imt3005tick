@@ -37,7 +37,7 @@ class profile::tickmaster {
     notify => Service['influxdb']
   }
 
-  ini_setting { 'telegrafconf influx user ':
+  ini_setting { '[outputs.influxdb] user':
     ensure      => present,
     require => Package['telegraf'],
     path => '/etc/telegraf/telegraf.conf',
@@ -48,17 +48,17 @@ class profile::tickmaster {
     indent_width  => 2,
     notify => Service['telegraf'],
   } 
-#   ini_setting { 'telegrafconf influx password':
-#    ensure      => present,
-#    require => Package['telegraf'],
-#    path => '/etc/telegraf/telegraf.conf',
-#    section => '[outputs.influxdb]',
-#    setting => 'password',
-#    value => '"puppet123"',
-#    indent_char   => " ",
-#    indent_width  => 2,
-#    notify => Service['telegraf'],
-#  }
+   ini_setting { '[outputs.influxdb] password':
+    ensure      => present,
+    require => Package['telegraf'],
+    path => '/etc/telegraf/telegraf.conf',
+    section => '[outputs.influxdb]',
+    setting => 'password',
+    value => '"puppet123"',
+    indent_char   => " ",
+    indent_width  => 2,
+    notify => Service['telegraf'],
+  }
   #$defaults_telegraf = { 
   #  'path' => '/etc/telegraf/telegraf.conf',
   #  'indent_char' => " ",
