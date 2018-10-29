@@ -55,22 +55,34 @@ class profile::tickmaster {
     ensure   => 'present',
     match => '^\  #\ password',
   }
-  file_line {'username kapacitor':
+  ini_setting { '[kapacitor] user':
+   ensure      => present,
     require => Package['kapacitor'],
+    path => '/etc/kapacitor/kapacitor.conf',
+    section => "[influxdb]",
+    setting => 'username',
+    value => "\"${admin_usr}\"",
+    indent_char   => " ",
+    indent_width  => 2,
     notify => Service['kapacitor'],
-    line      => "  username = \"${admin_usr}\"",
-    path      => '/etc/kapacitor/kapacitor.conf',
-    ensure   => 'present',
-    match => 'username\ =\ ""',
   }
-  file_line {'password kapacitor':
-    require => Package['kapacitor'],
-    notify => Service['kapacitor'],
-    line      => "  password = \"${admin_pwd}\"",
-    path      => '/etc/kapacitor/kapacitor.conf',
-    ensure   => 'present',
-    match => 'password\ =\ ""',
-  }
+#  } 
+#  file_line {'username kapacitor':
+#    require => Package['kapacitor'],
+#    notify => Service['kapacitor'],
+#    line      => "  username = \"${admin_usr}\"",
+#    path      => '/etc/kapacitor/kapacitor.conf',
+#    ensure   => 'present',
+#    match => 'username\ =\ ""',
+#  }
+#  file_line {'password kapacitor':
+#    require => Package['kapacitor'],
+#    notify => Service['kapacitor'],
+#    line      => "  password = \"${admin_pwd}\"",
+#    path      => '/etc/kapacitor/kapacitor.conf',
+#    ensure   => 'present',
+#    match => 'password\ =\ ""',
+#  }
 
 #  ini_setting { '[outputs.influxdb] user':
 #   ensure      => present,
