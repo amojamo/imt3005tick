@@ -40,7 +40,6 @@ class profile::tickmaster {
   ini_setting { 'telegrafconf influx user ':
     ensure      => present,
     require => Package['telegraf'],
-    before => Ini_setting['telegrafconf influxdb password'],
     path => '/etc/telegraf/telegraf.conf',
     section => 'outputs.influxdb',
     setting => 'test',
@@ -48,7 +47,7 @@ class profile::tickmaster {
     indent_char   => " ",
     indent_width  => 2,
     notify => Service['telegraf'],
-  }
+  } ->
    ini_setting { 'telegrafconf influx password':
     ensure      => present,
     require => Package['telegraf'],
@@ -79,11 +78,7 @@ class profile::tickmaster {
     ensure  => running,
     enable  => true,
     require => Package['influxdb'],
-    before => [
-      Exec['Create admin user in InfluxDB'],
-      Ini_setting['telegrafconf influxdb password'],
-      Ini_setting['telegrafconf influxdb user'],
-      ],
+    before => Exec['Create admin user in InfluxDB'],
     }
   }
 
