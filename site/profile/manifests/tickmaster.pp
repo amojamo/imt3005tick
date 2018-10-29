@@ -37,11 +37,11 @@ class profile::tickmaster {
     notify => Service['influxdb']
   }
 
-  file_line {'# username = "telegraf':
-    line      => "# username = \"${admin_usr}\"",
+  file_line {'username telegraf':
+    line      => "username = \"${admin_usr}\"",
     path      => '/etc/telegraf/telegraf.conf',
-    #after    => undef,
-    #ensure   => 'present',
+    ensure   => 'present',
+    match => '^#\ username="admin"',
     #multiple => undef, # 'true' or 'false'
     #name     => undef,
     #replace  => true, # 'true' or 'false'
@@ -88,7 +88,12 @@ class profile::tickmaster {
     ensure  => running,
     enable  => true,
     require => Package['influxdb'],
-    before => Exec['Create admin user in InfluxDB'],
+    before => [
+      Exec['Create admin user in InfluxDB'],
+      File_line['username telegraf'],
+      ],
     }
+    }
+
   }
 
