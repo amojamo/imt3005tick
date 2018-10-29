@@ -3,7 +3,6 @@ class profile::tickmaster {
 
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
-    notify{"/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}": }
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => latest,
     notify => Service['influxdb'],
@@ -40,7 +39,7 @@ class profile::tickmaster {
   ini_setting { 'telegrafconf influx user ':
     ensure      => present,
     path => '/etc/telegraf/telegraf.conf',
-    section => 'outputs.influxdb',
+    section => '[outputs.influxdb]',
     setting => 'test',
     value => 'true',
     indent_char   => " ",
