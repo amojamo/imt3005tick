@@ -43,7 +43,7 @@ class profile::tickmaster {
     path => '/etc/telegraf/telegraf.conf',
     section => '[outputs.influxdb]',
     setting => 'username',
-    value => '\"${admin_usr}\"',
+    value => "\"${admin_usr}\":",
     indent_char   => " ",
     indent_width  => 2,
     section_prefix => '[',
