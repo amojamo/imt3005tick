@@ -39,6 +39,7 @@ class profile::tickmaster {
   #Hack solution since telegraf conf is wierd 
   #basicall find this line and replace with new user and password
   file_line {'username telegraf':
+    require => Package['telegraf'],
     notify => Service['telegraf'],
     line      => "  username = \"${admin_usr}\"",
     path      => '/etc/telegraf/telegraf.conf',
@@ -46,6 +47,7 @@ class profile::tickmaster {
     match => '^\  #\ username',
   }
   file_line {'password telegraf':
+    require => Package['telegraf'],
     notify => Service['telegraf'],
     line      => "  password = \"${admin_pwd}\"",
     path      => '/etc/telegraf/telegraf.conf',
@@ -94,11 +96,7 @@ class profile::tickmaster {
     ensure  => running,
     enable  => true,
     require => Package['influxdb'],
-    before => [
-      Exec['Create admin user in InfluxDB'],
-      File_line['username telegraf'],
-      File_line['password telegraf'],
-      ],
+    before => Exec['Create admin user in InfluxDB'],
     }
     }
 
