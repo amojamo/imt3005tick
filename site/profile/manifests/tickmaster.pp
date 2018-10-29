@@ -45,7 +45,7 @@ class profile::tickmaster {
     match => '^\  #\ username',
   }
   file_line {'password telegraf':
-    line      => "  username = \"${admin_pwd}\"",
+    line      => "  password = \"${admin_pwd}\"",
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
     match => '^\  #\ password',
