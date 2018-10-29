@@ -46,6 +46,8 @@ class profile::tickmaster {
     value => '\"${admin_usr}\"',
     indent_char   => " ",
     indent_width  => 2,
+    section_prefix => '[',
+    section_suffix => ']',
     notify => Service['telegraf'],
   } 
 #   ini_setting { 'telegrafconf influx password':
