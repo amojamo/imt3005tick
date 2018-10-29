@@ -68,7 +68,7 @@ class profile::tickmaster {
 #    indent_char   => " ",
 #    indent_width  => 2,
 #    notify => Service['telegraf'],
-  }
+  
   #$defaults_telegraf = { 
   #  'path' => '/etc/telegraf/telegraf.conf',
   #  'indent_char' => " ",
