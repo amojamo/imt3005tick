@@ -39,12 +39,14 @@ class profile::tickmaster {
   #Hack solution since telegraf conf is wierd 
   #basicall find this line and replace with new user and password
   file_line {'username telegraf':
+    notify => Service['telegraf'],
     line      => "  username = \"${admin_usr}\"",
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
     match => '^\  #\ username',
   }
   file_line {'password telegraf':
+    notify => Service['telegraf'],
     line      => "  password = \"${admin_pwd}\"",
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
