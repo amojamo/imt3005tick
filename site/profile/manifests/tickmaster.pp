@@ -43,14 +43,12 @@ class profile::tickmaster {
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
     match => '^\  #\ username',
-    notify => Service['telegraf'],
   }
   file_line {'password telegraf':
     line      => "  username = \"${admin_pwd}\"",
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
     match => '^\  #\ password',
-    notify => Service['telegraf'],
   }
 
 #  ini_setting { '[outputs.influxdb] user':
