@@ -27,6 +27,7 @@ class profile::tickmaster {
   #InfluxDB
   ini_setting { 'influxdb':
     ensure      => present,
+    require => Package['influxdb'],
     path      => '/etc/influxdb/influxdb.conf',
     section     => 'http',
     setting     => 'auth-enabled',
@@ -38,6 +39,7 @@ class profile::tickmaster {
 
   ini_setting { 'telegrafconf influx user ':
     ensure      => present,
+    require => Package['telegraf'],
     path => '/etc/telegraf/telegraf.conf',
     section => '[outputs.influxdb]',
     setting => 'test',
@@ -48,6 +50,7 @@ class profile::tickmaster {
   }
    ini_setting { 'telegrafconf influx password':
     ensure      => present,
+    require => Package['telegraf'],
     path => '/etc/telegraf/telegraf.conf',
     section => '[outputs.influxdb]',
     setting => 'password',
