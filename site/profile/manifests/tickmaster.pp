@@ -83,8 +83,7 @@ class profile::tickmaster {
       Exec['Create admin user in InfluxDB'],
       Ini_setting['telegrafconf influxdb password'],
       Ini_setting['telegrafconf influxdb user'],
-    ],
+      ],
     }
   }
 
-}
