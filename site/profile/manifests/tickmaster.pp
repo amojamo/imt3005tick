@@ -37,27 +37,37 @@ class profile::tickmaster {
     notify => Service['influxdb']
   }
 
-  ini_setting { '[outputs.influxdb] user':
-    ensure      => present,
-    require => Package['telegraf'],
-    path => '/etc/telegraf/telegraf.conf',
-    section => "\[outputs.influxdb\]",
-    setting => 'username',
-    value => "\"${admin_usr}\"",
-    indent_char   => " ",
-    indent_width  => 2,
-    notify => Service['telegraf'],
-  } 
-   ini_setting { '[outputs.influxdb] password':
-    ensure      => present,
-    require => Package['telegraf'],
-    path => '/etc/telegraf/telegraf.conf',
-    section => '[outputs.influxdb]',
-    setting => 'password',
-    value => "\"${admin_pwd}\"",
-    indent_char   => " ",
-    indent_width  => 2,
-    notify => Service['telegraf'],
+  file_line {'# username = "telegraf':
+    line      => "# username = \"${admin_usr}\"",
+    path      => '/etc/telegraf/telegraf.conf',
+    #after    => undef,
+    #ensure   => 'present',
+    #multiple => undef, # 'true' or 'false'
+    #name     => undef,
+    #replace  => true, # 'true' or 'false'
+  }
+
+#  ini_setting { '[outputs.influxdb] user':
+#   ensure      => present,
+#    require => Package['telegraf'],
+#    path => '/etc/telegraf/telegraf.conf',
+#    section => "\[outputs.influxdb]",
+#    setting => 'username',
+#    value => "\"${admin_usr}\"",
+#    indent_char   => " ",
+#    indent_width  => 2,
+#    notify => Service['telegraf'],
+#  } 
+#   ini_setting { '[outputs.influxdb] password':
+#    ensure      => present,
+#    require => Package['telegraf'],
+#    path => '/etc/telegraf/telegraf.conf',
+#    section => '[outputs.influxdb]',
+#    setting => 'password',
+#    value => "\"${admin_pwd}\"",
+#    indent_char   => " ",
+#    indent_width  => 2,
+#    notify => Service['telegraf'],
   }
   #$defaults_telegraf = { 
   #  'path' => '/etc/telegraf/telegraf.conf',
