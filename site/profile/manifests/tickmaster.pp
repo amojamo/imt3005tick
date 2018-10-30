@@ -54,7 +54,7 @@ class profile::tickmaster {
     path      => '/etc/telegraf/telegraf.conf',
     ensure   => 'present',
     match => '^\  #\ password',
-  } 
+  }
 
   ini_setting { '[kapacitor] user':
    ensure      => present,
