@@ -32,19 +32,36 @@ class profile::tickmaster {
   }
 
 # Kapacitor
-  ini_setting { '[kapacitor] user':
-    ensure          => present,
-    require         => Package['kapacitor'],
-    path            => '/etc/kapacitor/kapacitor.conf',
-    section_prefix  => '[[',
-    section_suffix  => ']]',
-    section         => 'influxdb',
-    setting         => 'username',
-    value           => "\"${admin_usr}\"",
-    indent_char     => " ",
-    indent_width    => 2,
-    notify          => Service['kapacitor'],
-  } 
+
+  $defaults_kapacitor = {
+    'ensure'          => present,
+    'require'         => Package['kapacitor'],
+    'path'            => '/etc/kapacitor/kapacitor.conf',
+    'section_prefix'  => '[[',
+    'section_suffix'  => ']]',
+    'indent_char'     => " ",
+    'indent_width'    => 2,
+    'notify'          => Service['kapacitor'],
+  }
+  $userpw_kapacitor = {
+    'influxdb' => {
+      'username'     => "\"${admin_usr}\"",
+      'password'     => "\"${admin_pwd}\"",
+    }
+  }
+  #ini_setting { '[kapacitor] user':
+  #  ensure          => present,
+  #  require         => Package['kapacitor'],
+  #  path            => '/etc/kapacitor/kapacitor.conf',
+  #  section_prefix  => '[[',
+  #  section_suffix  => ']]',
+  #  section         => 'influxdb',
+  # setting         => 'username',
+  #  value           => "\"${admin_usr}\"",
+  #  indent_char     => " ",
+  #  indent_width    => 2,
+  #  notify          => Service['kapacitor'],
+  #} 
  
 # Telegraf
  #Syntax from https://github.com/puppetlabs/puppetlabs-inifile
