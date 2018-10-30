@@ -63,8 +63,8 @@ class profile::tickmaster {
   }
   $userpw_kapacitorSMTP = {
     'smtp'    => {
-      'username'  => "",
-      'password'  => "",
+      'username'  => "\"\"",
+      'password'  => "\"\"",
     }
   }
   create_ini_settings($userpw_kapacitorSMTP, $defaults_kapacitorSMTP)
