@@ -49,6 +49,7 @@ class profile::tickmaster {
       'password'     => "\"${admin_pwd}\"",
     }
   }
+  create_ini_settings($userpw_kapacitor, $defaults_kapacitor)
   #ini_setting { '[kapacitor] user':
   #  ensure          => present,
   #  require         => Package['kapacitor'],
