@@ -39,22 +39,22 @@ class profile::tickmaster {
 
   #Hack solution since telegraf conf is wierd 
   #basicall find this line and replace with new user and password
-  file_line {'username telegraf':
-    require => Package['telegraf'],
-    notify => Service['telegraf'],
-    line      => "  username = \"${admin_usr}\"",
-    path      => '/etc/telegraf/telegraf.conf',
-    ensure   => 'present',
-    match => '^\  #\ username',
-  }
-  file_line {'password telegraf':
-    require => Package['telegraf'],
-    notify => Service['telegraf'],
-    line      => "  password = \"${admin_pwd}\"",
-    path      => '/etc/telegraf/telegraf.conf',
-    ensure   => 'present',
-    match => '^\  #\ password',
-  }
+  #file_line {'username telegraf':
+  #  require => Package['telegraf'],
+  #  notify => Service['telegraf'],
+  #  line      => "  username = \"${admin_usr}\"",
+  #  path      => '/etc/telegraf/telegraf.conf',
+  #  ensure   => 'present',
+  #  match => '^\  #\ username',
+  #}
+  #file_line {'password telegraf':
+  #  require => Package['telegraf'],
+  #  notify => Service['telegraf'],
+  #  line      => "  password = \"${admin_pwd}\"",
+  #  path      => '/etc/telegraf/telegraf.conf',
+  #  ensure   => 'present',
+  #  match => '^\  #\ password',
+  #}
 
   ini_setting { '[kapacitor] user':
    ensure      => present,
@@ -108,19 +108,21 @@ class profile::tickmaster {
 #    indent_width  => 2,
 #    notify => Service['telegraf'],
   
-  #$defaults_telegraf = { 
-  #  'path' => '/etc/telegraf/telegraf.conf',
-  #  'indent_char' => " ",
-  #  'indent_width' => 2,
-  #}
-  #$userpw_telegraf = { 
-  #  'outputs.influxdb' => {           #section of config file
-  #    'username' => '$influxdb::admin_usr', #setting in config file
-  #    'password' => '$influxdb::admin_pwd',   #setting in config file
-  #  } 
-  #}
+  $defaults_telegraf = { 
+    'path' => '/etc/telegraf/telegraf.conf',
+    'section_prefix' => '[[',
+    'section_suffix' => ']]',
+    'indent_char' => " ",
+    'indent_width' => 2,
+  }
+  $userpw_telegraf = { 
+    'outputs.influxdb' => {           #section of config file
+      'username' => "\"${admin_usr}\"", #setting in config file
+      'password' => "\"${admin_pwd}\"",   #setting in config file
+    } 
+  }
 
-  #create_ini_settings($userpw_telegraf, $defaults_telegraf)
+  create_ini_settings($userpw_telegraf, $defaults_telegraf)
 
 
   service { ['influxdb','telegraf','kapacitor','chronograf']:
