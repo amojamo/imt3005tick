@@ -37,25 +37,6 @@ class profile::tickmaster {
     notify => Service['influxdb']
   }
 
-  #Hack solution since telegraf conf is wierd 
-  #basicall find this line and replace with new user and password
-  #file_line {'username telegraf':
-  #  require => Package['telegraf'],
-  #  notify => Service['telegraf'],
-  #  line      => "  username = \"${admin_usr}\"",
-  #  path      => '/etc/telegraf/telegraf.conf',
-  #  ensure   => 'present',
-  #  match => '^\  #\ username',
-  #}
-  #file_line {'password telegraf':
-  #  require => Package['telegraf'],
-  #  notify => Service['telegraf'],
-  #  line      => "  password = \"${admin_pwd}\"",
-  #  path      => '/etc/telegraf/telegraf.conf',
-  #  ensure   => 'present',
-  #  match => '^\  #\ password',
-  #}
-
   ini_setting { '[kapacitor] user':
    ensure      => present,
     require => Package['kapacitor'],
@@ -69,45 +50,7 @@ class profile::tickmaster {
     indent_width  => 2,
     notify => Service['kapacitor'],
   } 
- # file_line {'username kapacitor':
- #   require => Package['kapacitor'],
- #   notify => Service['kapacitor'],
- #   line      => "  username = \"${admin_usr}\"",
- #   path      => '/etc/kapacitor/kapacitor.conf',
- #   ensure   => 'present',
- #   match => 'username\ =\ ""',
- # }
- # file_line {'password kapacitor':
- #   require => Package['kapacitor'],
- #   notify => Service['kapacitor'],
- #   line      => "  password = \"${admin_pwd}\"",
- #   path      => '/etc/kapacitor/kapacitor.conf',
- #   ensure   => 'present',
- #   match => 'password\ =\ ""',
- # }
-
-#  ini_setting { '[outputs.influxdb] user':
-#   ensure      => present,
-#    require => Package['telegraf'],
-#    path => '/etc/telegraf/telegraf.conf',
-#    section => "\[outputs.influxdb]",
-#    setting => 'username',
-#    value => "\"${admin_usr}\"",
-#    indent_char   => " ",
-#    indent_width  => 2,
-#    notify => Service['telegraf'],
-#  } 
-#   ini_setting { '[outputs.influxdb] password':
-#    ensure      => present,
-#    require => Package['telegraf'],
-#    path => '/etc/telegraf/telegraf.conf',
-#    section => '[outputs.influxdb]',
-#    setting => 'password',
-#    value => "\"${admin_pwd}\"",
-#    indent_char   => " ",
-#    indent_width  => 2,
-#    notify => Service['telegraf'],
-  
+ 
   $defaults_telegraf = { 
     'path' => '/etc/telegraf/telegraf.conf',
     'section_prefix' => '[[',
