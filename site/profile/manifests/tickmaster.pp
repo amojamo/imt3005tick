@@ -61,8 +61,6 @@ class profile::tickmaster {
     require => Package['kapacitor'],
     path => '/etc/kapacitor/kapacitor.conf',
     section => 'influxdb',
-    section_prefix => '[[',
-    section_suffix => ']]',
     setting => 'username',
     value => "\"${admin_usr}\"",
     indent_char   => " ",
