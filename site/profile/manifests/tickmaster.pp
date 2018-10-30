@@ -34,7 +34,7 @@ class profile::tickmaster {
 # Kapacitor
 
   $defaults_kapacitor = {
-    #'ensure'          => 'present',
+    'ensure'          => present,
     'require'         => Package['kapacitor'],
     'notify'          => Service['kapacitor'],
     'path'            => '/etc/kapacitor/kapacitor.conf',
@@ -50,14 +50,12 @@ class profile::tickmaster {
     }
   }
   create_ini_settings($userpw_kapacitor, $defaults_kapacitor)
-
+# Remove unintentional user login from previous create_init_settings
   $defaults_kapacitorSMTP = {
-    #'ensure'          => 'present',
+    'ensure'          => present,
     'require'         => Package['kapacitor'],
     'notify'          => Service['kapacitor'],
     'path'            => '/etc/kapacitor/kapacitor.conf',
-    #'section_prefix'  => '[[',
-    #'section_suffix'  => ']]',
     'indent_char'     => " ",
     'indent_width'    => 2,
   }
@@ -68,24 +66,11 @@ class profile::tickmaster {
     }
   }
   create_ini_settings($userpw_kapacitorSMTP, $defaults_kapacitorSMTP)
-
-  #ini_setting { '[kapacitor] user':
-  #  ensure          => present,
-  #  require         => Package['kapacitor'],
-  #  path            => '/etc/kapacitor/kapacitor.conf',
-  #  section_prefix  => '[[',
-  #  section_suffix  => ']]',
-  #  section         => 'influxdb',
-  # setting         => 'username',
-  #  value           => "\"${admin_usr}\"",
-  #  indent_char     => " ",
-  #  indent_width    => 2,
-  #  notify          => Service['kapacitor'],
-  #} 
  
 # Telegraf
  #Syntax from https://github.com/puppetlabs/puppetlabs-inifile
   $defaults_telegraf = { 
+    'ensure'          => present,
     'require'        => Package['telegraf'],
     'notify'         => Service['telegraf'],
     'path'           => '/etc/telegraf/telegraf.conf',
