@@ -34,7 +34,7 @@ class profile::tickmaster {
 # Kapacitor
 
   $defaults_kapacitor = {
-    'ensure'          => present,
+    #'ensure'          => 'present',
     'require'         => Package['kapacitor'],
     'path'            => '/etc/kapacitor/kapacitor.conf',
     'section_prefix'  => '[[',
