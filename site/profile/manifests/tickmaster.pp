@@ -50,6 +50,25 @@ class profile::tickmaster {
     }
   }
   create_ini_settings($userpw_kapacitor, $defaults_kapacitor)
+
+  $defaults_kapacitorSMTP = {
+    #'ensure'          => 'present',
+    'require'         => Package['kapacitor'],
+    'notify'          => Service['kapacitor'],
+    'path'            => '/etc/kapacitor/kapacitor.conf',
+    #'section_prefix'  => '[[',
+    #'section_suffix'  => ']]',
+    'indent_char'     => " ",
+    'indent_width'    => 2,
+  }
+  $userpw_kapacitorSMTP = {
+    'smtp'    => {
+      'username'  => "",
+      'password'  => "",
+    }
+  }
+  create_ini_settings($userpw_kapacitorSMTP, $defaults_kapacitorSMTP)
+
   #ini_setting { '[kapacitor] user':
   #  ensure          => present,
   #  require         => Package['kapacitor'],
