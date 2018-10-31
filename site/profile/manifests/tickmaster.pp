@@ -1,4 +1,4 @@
-
+# Installs and configures TICK
 class profile::tickmaster {
 
     $admin_usr = lookup('influxdb::admin_usr')
@@ -7,28 +7,28 @@ class profile::tickmaster {
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure => latest,
     notify => Service['influxdb'],
-  } ->
+  }
 
-  exec { 'Create admin user in InfluxDB':
+  -> exec { 'Create admin user in InfluxDB':
     command => "/usr/bin/influx -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
     require => [
       Package['influxdb'],
     ],
-    unless => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",
-    
+    unless  => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",  # lint:ignore:140chars
+
   }
 
 # InfluxDB
   ini_setting { 'influxdb':
-    ensure        => present,
-    require       => Package['influxdb'],
-    path          => '/etc/influxdb/influxdb.conf',
-    section       => 'http',
-    setting       => 'auth-enabled',
-    value         => 'true',
-    indent_char   => " ",
-    indent_width  => 2,
-    notify        => Service['influxdb'],
+    ensure       => present,
+    require      => Package['influxdb'],
+    path         => '/etc/influxdb/influxdb.conf',
+    section      => 'http',
+    setting      => 'auth-enabled',
+    value        => true,
+    indent_char  => ' ',
+    indent_width => 2,
+    notify       => Service['influxdb'],
   }
 
 # Kapacitor
@@ -40,7 +40,7 @@ class profile::tickmaster {
     'path'            => '/etc/kapacitor/kapacitor.conf',
     'section_prefix'  => '[[',
     'section_suffix'  => ']]',
-    'indent_char'     => " ",
+    'indent_char'     => ' ',
     'indent_width'    => 2,
   }
   $userpw_kapacitor = {
@@ -50,40 +50,41 @@ class profile::tickmaster {
     }
   }
   create_ini_settings($userpw_kapacitor, $defaults_kapacitor)
+
 # Remove unintentional user login from previous create_init_settings
-  $defaults_kapacitorSMTP = {
+  $defaults_kapacitorsmtp = {
     'ensure'          => present,
     'require'         => Package['kapacitor'],
     'notify'          => Service['kapacitor'],
     'path'            => '/etc/kapacitor/kapacitor.conf',
-    'indent_char'     => " ",
+    'indent_char'     => ' ',
     'indent_width'    => 2,
   }
-  $userpw_kapacitorSMTP = {
+  $userpw_kapacitorsmtp = {
     'smtp'    => {
       'username'  => "\"\"",
       'password'  => "\"\"",
     }
   }
-  create_ini_settings($userpw_kapacitorSMTP, $defaults_kapacitorSMTP)
- 
+  create_ini_settings($userpw_kapacitorsmtp, $defaults_kapacitorsmtp)
+
 # Telegraf
- #Syntax from https://github.com/puppetlabs/puppetlabs-inifile
-  $defaults_telegraf = { 
+# Syntax from https://github.com/puppetlabs/puppetlabs-inifile
+  $defaults_telegraf = {
     'ensure'          => present,
     'require'        => Package['telegraf'],
     'notify'         => Service['telegraf'],
     'path'           => '/etc/telegraf/telegraf.conf',
     'section_prefix' => '[[',
     'section_suffix' => ']]',
-    'indent_char'    => " ",
+    'indent_char'    => ' ',
     'indent_width'   => 2,
   }
-  $userpw_telegraf = { 
+  $userpw_telegraf = {
     'outputs.influxdb'  => {           #section of config file
       'username'        => "\"${admin_usr}\"", #setting in config file
       'password'        => "\"${admin_pwd}\"",   #setting in config file
-    } 
+    }
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
 
@@ -95,6 +96,3 @@ class profile::tickmaster {
     before  => Exec['Create admin user in InfluxDB'],
     }
   }
-
-  
-
