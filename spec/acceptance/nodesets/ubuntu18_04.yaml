@@ -8,7 +8,7 @@ HOSTS:
     docker_preserve_image: true
     docker_container_name: "beaker-influxdb-ubuntu-bionic"
     docker_image_commands:
-      - 'apt-get install -y net-tools'
+      - 'apt-get install -y net-tools ntpdate curl git ruby rdoc'
     docker_cmd: '["/sbin/init"]'
     docker_image_commands:
       # ensure that upstart is booting correctly in the container
