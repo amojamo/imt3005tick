@@ -28,7 +28,6 @@ class profile::telegraf {
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
 
-
   service { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure  => running,
     enable  => true,
