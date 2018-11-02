@@ -5,4 +5,5 @@ class role::tick_master {
   #All roles should include the base profile
   include profile::base
   include profile::tickmaster
+  include profile::dns::server
 }

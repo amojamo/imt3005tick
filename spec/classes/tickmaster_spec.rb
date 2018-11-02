@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe 'profile::tickmaster' do
-  it { is_expected.to compile }
+  it { should contain_class('profile::tickmaster') }
 end

@@ -15,7 +15,7 @@ PuppetLint::RakeTask.new(:lint) do |config|
   # Pattern of files to ignore
   config.ignore_paths = exclude_paths
   # Pattern of files to check, defaults to `**/*.pp`
-  config.pattern = ['manifests/**/*.pp', 'site/**/*.pp']
+  config.pattern = ['manifests/*.pp', 'site/**/*.pp']
   # List of checks to disable
   config.disable_checks = ['140chars', 'relative', 'class_inherits_from_params_class']
   # Should the task fail if there were any warnings, defaults to false
