@@ -31,4 +31,5 @@ node default {
   include apt
   include ::profile::base
   include ::profile::tickmaster
+  include ::profile::dns::server
 }
