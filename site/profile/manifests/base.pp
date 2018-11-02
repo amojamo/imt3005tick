@@ -1,7 +1,5 @@
-#Base class for all manifests, configures repo for influxdb
-
 class profile::base {
-  #the base profile should include component modules that will be on all nodes
+  
 
   $_operatingsystem = downcase($::facts['os']['name'])
   $_oscodename = downcase($::facts['os']['distro']['codename'])
