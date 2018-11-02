@@ -1,3 +1,4 @@
+#Role for telegraf, needs base and telegraf profile
 class role::telegraf_node {
 
   #This role would be made of all the profiles that need to be included to make a webserver work

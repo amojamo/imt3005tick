@@ -1,0 +1,15 @@
+fixtures:
+  symlinks:
+    site: "#{source_dir}/site"
+    r10k: "#{source_dir}/modules"
+  repositories:
+    stdlib:
+      repo: https://github.com/puppetlabs/puppetlabs-stdlib.git
+    vcsrepo:
+      repo: https://github.com/puppetlabs/puppetlabs-vcsrepo.git
+    inifile:
+      repo: https://github.com/puppetlabs/puppetlabs-inifile.git
+    r10k:
+      repo: https://github.com/voxpupuli/puppet-r10k
+    apt:
+      repo: https://github.com/puppetlabs/puppetlabs-apt
