@@ -10,7 +10,7 @@ class profile::telegraf {
   }
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
-  -> $defaults_telegraf = {
+  $defaults_telegraf = {
     'ensure'          => present,
     'require'        => Package['telegraf'],
     'notify'         => Service['telegraf'],
