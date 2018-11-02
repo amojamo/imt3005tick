@@ -61,7 +61,7 @@ class profile::tickmaster {
     'indent_width'    => 2,
   }
   $userpw_kapacitorsmtp = {
-    'smtp'    => {
+    'smtp'    => {`
       'username'  => "\"\"",
       'password'  => "\"\"",
     }
