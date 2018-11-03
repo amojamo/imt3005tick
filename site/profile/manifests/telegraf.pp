@@ -34,6 +34,5 @@ class profile::telegraf {
     ensure  => running,
     enable  => true,
     require => Package['influxdb'],
-    before  => Exec['Create admin user in InfluxDB'],
     }
   }
