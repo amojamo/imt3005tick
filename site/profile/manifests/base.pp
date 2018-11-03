@@ -1,5 +1,15 @@
 class profile::base {
   
+    class { 'ntp':
+    servers  => [ 'ntp.ntnu.no' ],
+    restrict => [
+      'default kod nomodify notrap nopeer noquery',
+      '-6 default kod nomodify notrap nopeer noquery',
+    ],
+  }
+  class { 'timezone':
+    timezone => 'Europe/Oslo',
+  }
 
   $_operatingsystem = downcase($::facts['os']['name'])
   $_oscodename = downcase($::facts['os']['distro']['codename'])
@@ -13,4 +23,7 @@ class profile::base {
       'source' => 'https://repos.influxdata.com/influxdb.key',
     },
   }
+
+  #include profile::dns::client
+
 }

@@ -5,6 +5,4 @@ class role::telegraf_node {
   #All roles should include the base profile
   include profile::base
   include profile::telegraf
-  include profile::dns::client
-
 }

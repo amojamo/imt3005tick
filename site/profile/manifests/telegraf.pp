@@ -3,9 +3,9 @@ class profile::telegraf {
 
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
-    $managerip = dns_a("manager.star.wars")
+    #$managerip = dns_a('manager.star.wars')[0]
     
-    notice("managerip ${managerip}")
+    #notice("managerip ${managerip}")
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure => latest,
     notify => Service['influxdb'],

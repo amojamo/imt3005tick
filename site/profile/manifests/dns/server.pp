@@ -15,5 +15,5 @@ class profile::dns::server {
   }
 
   # Collect all the records from other nodes
-  Dns::Record::A <<||>>
+  Dns::Record::A <<||>> 
 }
