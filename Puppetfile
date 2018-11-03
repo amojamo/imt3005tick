@@ -4,7 +4,7 @@ forge 'https://forge.puppet.com'
 # Versions should be updated to be the latest at the time you start
 #mod 'puppetlabs/inifile',     '2.2.1'
 #mod 'puppetlabs/stdlib',      '4.25.1'
-#mod 'puppetlabs/concat',      '4.2.1'
+mod 'puppetlabs-concat',      '5.1.0'
 
 # Modules from Git
 # Examples: https://github.com/puppetlabs/r10k/blob/master/doc/puppetfile.mkd#examples
@@ -26,9 +26,7 @@ mod 'stm-debconf',              '2.3.0'
 
 # Network
 mod 'example42-network',        '3.5.0'
-mod 'ajjahn-dns',
-  :git    => 'https://github.com/ajjahn/puppet-dns',
-  :commit => '57946eb'
+mod 'ajjahn-dns',				'2.1.0'
 mod 'dalen-dnsquery', 			'3.0.0'
 
 # r10k
