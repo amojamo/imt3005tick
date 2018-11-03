@@ -30,6 +30,14 @@ node default {
   # Example:
   include apt
   include ::profile::base
-  include ::profile::tickmaster
-  include ::profile::dns::server
+}
+
+node 'manager.star.wars' {
+	include apt
+	include role::tick_master
+}
+
+node 'worker-0' {
+	include apt
+	include role::telegraf_node
 }
