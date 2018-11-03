@@ -29,7 +29,5 @@ node default {
   # This is where you can declare classes for all nodes.
   # Example:
   include apt
-  include ::profile::base
-  include ::profile::tickmaster
-  include ::profile::dns::server
+  include ::role::tick_master
 }
