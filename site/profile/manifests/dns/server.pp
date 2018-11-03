@@ -8,7 +8,7 @@ class profile::dns::server {
     forwarders => ['129.241.0.201', ],
   }
 
-  dns::zone { 'wanna.believe':
+  dns::zone { 'star.wars':
     soa         => 'manager.star.wars',
     soa_email   => 'admin.star.wars',
     nameservers => ['manager'],
