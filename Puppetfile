@@ -26,6 +26,10 @@ mod 'stm-debconf',              '2.3.0'
 
 # Network
 mod 'example42-network',        '3.5.0'
+mod 'ajjahn-dns',
+  :git    => 'https://github.com/ajjahn/puppet-dns',
+  :commit => '57946eb'
+mod 'dalen-dnsquery', 			'3.0.0'
 
 # r10k
 mod 'puppet-r10k',              '6.7.0'
