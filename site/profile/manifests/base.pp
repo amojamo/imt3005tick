@@ -24,6 +24,6 @@ class profile::base {
     },
   }
 
-  include profile::dns::client
+  #include profile::dns::client
 
 }
