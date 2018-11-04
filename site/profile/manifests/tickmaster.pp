@@ -9,20 +9,29 @@ class profile::tickmaster {
     notify => Service['influxdb'],
   }
 
-  #-> exec { 'Create self signed certificate and private key':
-  # command => "/usr/bin/openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/influxdb-selfsigned.key -out /etc/ssl/influxdb-selfsigned.crt -subj \"/C=NO/ST=Oppland/L=Gjovik/O=NTNU/CN=Student\" -days 365",
-  #  require => [
-  #    Package['influxdb'],
-  #  ],
-  #  unless  => "/bin/ls /etc/ssl/ | /bin/grep influx",  # lint:ignore:140chars
-  #}
-
-  -> exec { 'Create admin user in InfluxDB':
-    command => "/usr/bin/influx -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
+  -> exec { 'Create self signed certificate and private key':
+    command => "/usr/bin/openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/influxdb-selfsigned.key -out /etc/ssl/influxdb-selfsigned.crt -subj \"/C=NO/ST=Oppland/L=Gjovik/O=NTNU/CN=Student\" -days 365", # lint:ignore:140chars
     require => [
       Package['influxdb'],
     ],
-    unless  => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",  # lint:ignore:140chars
+    unless  => '/bin/ls /etc/ssl/ | /bin/grep influx',  # lint:ignore:140chars
+  }
+
+  -> file { '/etc/ssl/influxdb-selfsigned.crt':
+    ensure => file,
+    path   => '/etc/ssl/influxdb-selfsigned.crt',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    before => Exec['Create admin user in InfluxDB'],
+  }
+
+  -> exec { 'Create admin user in InfluxDB':
+    command => "/usr/bin/influx -ssl -unsafeSsl -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"", # lint:ignore:140chars
+    require => [
+      Package['influxdb'],
+    ],
+    unless  => "/usr/bin/influx -ssl -unsafeSsl -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",  # lint:ignore:140chars
   }
 
 # InfluxDB
@@ -36,11 +45,11 @@ class profile::tickmaster {
   }
 
   $https_influxdb = {
-    'http'    => {
-    #  'https-enabled'      => "true",
-    #  'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
-    #  'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
-       'auth-enabled'       => "true",
+    'http'    => { # Section in config file
+      'https-enabled'      => true, # Setting in the given section
+      'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
+      'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
+      'auth-enabled'       => true,
     }
   }
   create_ini_settings($https_influxdb, $defaults_influxdb)
@@ -95,11 +104,11 @@ class profile::tickmaster {
     'indent_width'   => 2,
   }
   $userpw_telegraf = {
-    'outputs.influxdb'  => {           #section of config file
-      'username'        => "\"${admin_usr}\"", #setting in config file
-      'password'        => "\"${admin_pwd}\"",   #setting in config file
-      #'insecure_skip_verify' => "true",
-      'urls'            => "[\"http://manager.star.wars:8086\"]"
+    'outputs.influxdb'  => {
+      'username'        => "\"${admin_usr}\"",
+      'password'        => "\"${admin_pwd}\"",
+      'insecure_skip_verify' => true,
+      'urls'            => "[\"https://manager.star.wars:8086\"]"
     }
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
