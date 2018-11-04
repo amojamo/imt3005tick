@@ -24,8 +24,8 @@ class profile::telegraf {
     'outputs.influxdb'  => {
       'username'        => "\"${admin_usr}\"",
       'password'        => "\"${admin_pwd}\"",
-      'insecure_skip_verify' => true,
       'urls'                 => "[\"https://manager.star.wars:8086\"]",
+      'insecure_skip_verify' => true,
     }
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
