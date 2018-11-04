@@ -4,9 +4,9 @@ class profile::telegraf {
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
 
-    package { ['influxdb','telegraf','kapacitor','chronograf']:
+    package { ['telegraf']:
     ensure => latest,
-    notify => Service['influxdb'],
+    notify => Service['telegraf'],
   }
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
@@ -29,9 +29,9 @@ class profile::telegraf {
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
 
-  service { ['influxdb','telegraf','kapacitor','chronograf']:
+  service { ['telegraf']:
     ensure  => running,
     enable  => true,
-    require => Package['influxdb'],
+    require => Package['telegraf'],
     }
   }
