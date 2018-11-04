@@ -1,5 +1,6 @@
+#Base class sourcing the influxdb repo and setting up correct timezone
 class profile::base {
-  
+
   $_operatingsystem = downcase($::facts['os']['name'])
   $_oscodename = downcase($::facts['os']['distro']['codename'])
 
