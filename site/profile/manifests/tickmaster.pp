@@ -28,7 +28,6 @@ class profile::tickmaster {
 # InfluxDB
   $defaults_influxdb = {
     'ensure'          => present,
-    'enable'          => true,
     'require'         => Package['influxdb'],
     'notify'          => Service['influxdb'],
     'path'            => '/etc/influxdb/influxdb.conf',
