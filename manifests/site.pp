@@ -36,6 +36,6 @@ node 'manager.star.wars' {
 	include ::role::tick_master
 }
 
-node 'worker-0' {
+node 'worker-*' {
 	include ::role::telegraf_node
 }
