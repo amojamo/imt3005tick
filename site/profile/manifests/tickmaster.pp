@@ -67,8 +67,10 @@ class profile::tickmaster {
   }
   $userpw_kapacitor = {
     'influxdb'    => {
+      'urls'      => "\[\"https://localhost:8086\"\]",
       'username'  => "\"${admin_usr}\"",
       'password'  => "\"${admin_pwd}\"",
+      'insecure_skip_verify' => true,
     }
   }
   create_ini_settings($userpw_kapacitor, $defaults_kapacitor)
