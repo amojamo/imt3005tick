@@ -28,6 +28,7 @@ class profile::tickmaster {
 # InfluxDB
   $defaults_influxdb = {
     'ensure'          => present,
+    'enable'          => true,
     'require'         => Package['influxdb'],
     'notify'          => Service['influxdb'],
     'path'            => '/etc/influxdb/influxdb.conf',
@@ -85,7 +86,7 @@ class profile::tickmaster {
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
   $defaults_telegraf = {
-    'ensure'          => present,
+    'ensure'         => present,
     'require'        => Package['telegraf'],
     'notify'         => Service['telegraf'],
     'path'           => '/etc/telegraf/telegraf.conf',
