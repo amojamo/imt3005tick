@@ -22,7 +22,7 @@ class profile::tickmaster {
     require => [
       Package['influxdb'],
     ],
-    unless  => "ls /etc/ssl/ | grep influx",  # lint:ignore:140chars
+    unless  => "/bin/ls /etc/ssl/ | grep influx",  # lint:ignore:140chars
   }
 
 # InfluxDB
