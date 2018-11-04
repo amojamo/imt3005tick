@@ -3,7 +3,7 @@ class profile::telegraf {
 
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
- 
+
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure => latest,
     notify => Service['influxdb'],

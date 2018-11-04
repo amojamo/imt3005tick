@@ -33,11 +33,9 @@ node default {
 }
 
 node 'manager.star.wars' {
-	include apt
-	include role::tick_master
+	include ::role::tick_master
 }
 
-node 'worker-0' {
-	include apt
-	include role::telegraf_node
+node 'worker-0.star.wars' {
+	include ::role::telegraf_node
 }
