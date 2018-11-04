@@ -37,13 +37,13 @@ class profile::tickmaster {
 
   $https_influxdb = {
     'http'    => {
-      'https-enabled'      => "true",
-      'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
-      'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
+    #  'https-enabled'      => "true",
+    #  'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
+    #  'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
       'auth-enabled'       => "true",
     }
   }
-  #create_ini_settings($https_influxdb, $defaults_influxdb)
+  create_ini_settings($https_influxdb, $defaults_influxdb)
 
 # Kapacitor
 
@@ -98,8 +98,8 @@ class profile::tickmaster {
     'outputs.influxdb'  => {           #section of config file
       'username'        => "\"${admin_usr}\"", #setting in config file
       'password'        => "\"${admin_pwd}\"",   #setting in config file
-      'insecure_skip_verify' => "true",
-      'urls'            => "[\"https://manager.star.wars:8086\"]"
+      #'insecure_skip_verify' => "true",
+      #'urls'            => "[\"https://manager.star.wars:8086\"]"
     }
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
