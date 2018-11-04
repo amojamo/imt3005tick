@@ -18,11 +18,11 @@ class profile::tickmaster {
   }
 
   -> exec { 'Create self signed certificate and private key':
-    command => "openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/influxdb-selfsigned.key -out /etc/ssl/influxdb-selfsigned.crt -subj \"/C=NO/ST=Oppland/L=Gjovik/O=NTNU/CN=Student\" -days 365",
+    command => "/usr/bin/openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/influxdb-selfsigned.key -out /etc/ssl/influxdb-selfsigned.crt -subj \"/C=NO/ST=Oppland/L=Gjovik/O=NTNU/CN=Student\" -days 365",
     require => [
       Package['influxdb'],
     ],
-    unless  => "/bin/ls /etc/ssl/ | grep influx",  # lint:ignore:140chars
+    unless  => "/bin/ls /etc/ssl/ | /bin/grep influx",  # lint:ignore:140chars
   }
 
 # InfluxDB
