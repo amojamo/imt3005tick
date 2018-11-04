@@ -17,13 +17,13 @@ class profile::tickmaster {
     unless  => "/bin/ls /etc/ssl/ | /bin/grep influx",  # lint:ignore:140chars
   }
 
-  -> exec { 'Create admin user in InfluxDB':
-    command => "/usr/bin/influx -ssl -unsafeSsl -host localhost -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
-    require => [
-      Package['influxdb'],
-    ],
-    unless  => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",  # lint:ignore:140chars
-  }
+  #-> exec { 'Create admin user in InfluxDB':
+  #  command => "/usr/bin/influx -ssl -unsafeSsl -host localhost -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
+  #  require => [
+  #    Package['influxdb'],
+  #  ],
+  #  unless  => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",  # lint:ignore:140chars
+  #}
 
 # InfluxDB
   $defaults_influxdb = {
@@ -109,6 +109,6 @@ class profile::tickmaster {
     ensure  => running,
     enable  => true,
     require => Package['influxdb'],
-    before  => Exec['Create admin user in InfluxDB'],
+    #before  => Exec['Create admin user in InfluxDB'],
     }
   }
