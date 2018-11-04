@@ -107,8 +107,8 @@ class profile::tickmaster {
     'outputs.influxdb'  => {
       'username'        => "\"${admin_usr}\"",
       'password'        => "\"${admin_pwd}\"",
-      #'urls'            => "[\"http://manager.star.wars:8086\"]",
-      #'insecure_skip_verify' => true,
+      'urls'            => "[\"http://manager.star.wars:8086\"]",
+      'insecure_skip_verify' => true,
     }
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
