@@ -99,6 +99,7 @@ class profile::tickmaster {
       'username'        => "\"${admin_usr}\"", #setting in config file
       'password'        => "\"${admin_pwd}\"",   #setting in config file
       'insecure_skip_verify' => "true",
+      'urls'            => "[\"https://manager.star.wars:8086\"]"
     }
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
