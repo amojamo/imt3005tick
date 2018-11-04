@@ -43,7 +43,7 @@ class profile::tickmaster {
       'auth-enabled'       => "true",
     }
   }
-  create_ini_settings($https_influxdb, $defaults_influxdb)
+  #create_ini_settings($https_influxdb, $defaults_influxdb)
 
 # Kapacitor
 
