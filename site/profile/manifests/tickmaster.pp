@@ -17,9 +17,8 @@ class profile::tickmaster {
     unless  => '/bin/ls /etc/ssl/ | /bin/grep influx',  # lint:ignore:140chars
   }
 
-  -> file { '/etc/ssl/influxdb-selfsigned.crt':
+  -> file { ['/etc/ssl/influxdb-selfsigned.crt','/etc/ssl/influxdb-selfsigned.key']:
     ensure => file,
-    path   => '/etc/ssl/influxdb-selfsigned.crt',
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
