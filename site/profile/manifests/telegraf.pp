@@ -25,7 +25,7 @@ class profile::telegraf {
       'username'        => "\"${admin_usr}\"",
       'password'        => "\"${admin_pwd}\"",
       'insecure_skip_verify' => true,
-      'urls'                 => "[\"http://manager.star.wars:8086\"]",
+      'urls'                 => "[\"https://manager.star.wars:8086\"]",
     }
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)

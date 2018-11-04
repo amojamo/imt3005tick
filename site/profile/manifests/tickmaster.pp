@@ -107,7 +107,7 @@ class profile::tickmaster {
     'outputs.influxdb'  => {
       'username'        => "\"${admin_usr}\"",
       'password'        => "\"${admin_pwd}\"",
-      'urls'            => "[\"http://manager.star.wars:8086\"]",
+      'urls'            => "[\"https://manager.star.wars:8086\"]",
       'insecure_skip_verify' => true,
     }
   }
