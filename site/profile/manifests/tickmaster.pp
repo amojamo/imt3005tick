@@ -18,7 +18,7 @@ class profile::tickmaster {
   }
 
   -> exec { 'Create admin user in InfluxDB':
-    command => "/usr/bin/influx -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
+    command => "/usr/bin/influx -ssl -unsafeSsl -host localhost -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
     require => [
       Package['influxdb'],
     ],
@@ -26,18 +26,6 @@ class profile::tickmaster {
   }
 
 # InfluxDB
-  ini_setting { 'influxdb':
-    ensure       => present,
-    require      => Package['influxdb'],
-    path         => '/etc/influxdb/influxdb.conf',
-    section      => 'http',
-    setting      => 'auth-enabled',
-    value        => true,
-    indent_char  => ' ',
-    indent_width => 2,
-    notify       => Service['influxdb'],
-  }
-
   $defaults_influxdb = {
     'ensure'          => present,
     'require'         => Package['influxdb'],
@@ -52,6 +40,7 @@ class profile::tickmaster {
       'https-enabled'      => "true",
       'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
       'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
+      'auth-enabled'       => "true",
     }
   }
   create_ini_settings($https_influxdb, $defaults_influxdb)
