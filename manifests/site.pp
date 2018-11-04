@@ -33,9 +33,9 @@ node default {
 }
 
 node 'manager.star.wars' {
-	include ::role::tick_master
+  include ::role::tick_master
 }
 
-node 'worker-*' {
-	include ::role::telegraf_node
+node /^worker/ {
+  include ::role::telegraf_node
 }
