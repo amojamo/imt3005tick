@@ -7,10 +7,8 @@ defaults:
 hierarchy:
   - name: 'Yaml backend'
     data_hash: yaml_data
-    paths:
-      - name: "Common data"
-        path: 'common.yaml'
-
-      - name: "Per-node data"
-        path: "nodes/%{trusted.certname}.yaml"
+  - name: "Common data"
+    path: 'common.yaml'
+  - name: "Per-node data"
+    path: "nodes/%{trusted.certname}.yaml"
 
