@@ -4,6 +4,7 @@ class profile::tickmaster {
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
     $telegram_enabled = lookup('kapacitor::telegram_enabled')
+
     if $telegram_enabled {
       $telegram_token = lookup('kapacitor::telegram_token')
       $telegram_chatid = lookup('kapacitor::telegram_chatid')
@@ -32,15 +33,6 @@ class profile::tickmaster {
     mode   => '0755',
     before => Exec['Create admin user in InfluxDB'],
   }
-
-  -> file { ['/etc/ssl/influxdb-selfsigned.crt','/etc/ssl/influxdb-selfsigned.key']:
-    ensure => file,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-    before => Exec['Create admin user in InfluxDB'],
-  }
-
   -> exec { 'Create admin user in InfluxDB':
     command => "/usr/bin/influx -ssl -unsafeSsl -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"", # lint:ignore:140chars
     require => [
@@ -69,15 +61,6 @@ class profile::tickmaster {
   }
   create_ini_settings($https_influxdb, $defaults_influxdb)
 
-  $https_influxdb = {
-    'http'    => { # Section in config file
-      'https-enabled'      => true, # Setting in the given section
-      'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
-      'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
-      'auth-enabled'       => true,
-    }
-  }
-  create_ini_settings($https_influxdb, $defaults_influxdb)
 
 # Kapacitor
 
@@ -118,7 +101,7 @@ class profile::tickmaster {
   }
   create_ini_settings($userpw_kapacitorsmtp, $defaults_kapacitorsmtp)
 
-  if $telegram_enabled {
+
     $defaults_telegram = {
     'ensure'          => present,
     'require'         => Package['kapacitor'],
@@ -127,15 +110,24 @@ class profile::tickmaster {
     'indent_char'     => ' ',
     'indent_width'    => 2,
   }
+  if $telegram_enabled {
   $telegram_kapacitor = {
     'telegram'    => {
       'enabled'   => $telegram_enabled,
       'token'     => "\"${telegram_token}\"",
       'chat-id'   => "\"${telegram_chatid}\"",
+      }
+    }
+  } else {
+   $telegram_kapacitor = {
+    'telegram'    => {
+      'enabled'   => $telegram_enabled,
+      'token'     => "\"\"",
+      'chat-id'   => "\"\"",
+      }
     }
   }
-  create_ini_settings($telegram_kapacitor, $defaults_telegram)
-  }
+create_ini_settings($telegram_kapacitor, $defaults_telegram)
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
   $defaults_telegraf = {
@@ -165,4 +157,4 @@ class profile::tickmaster {
     require => Package['influxdb'],
     before  => Exec['Create admin user in InfluxDB'],
     }
-  }
+}

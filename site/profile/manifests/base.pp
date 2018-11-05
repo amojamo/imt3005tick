@@ -25,7 +25,4 @@ class profile::base {
   }
 
 
-
-  #include profile::dns::client
-
 }
