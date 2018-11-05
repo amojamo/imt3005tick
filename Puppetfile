@@ -24,8 +24,6 @@ mod 'stm-debconf',              '2.3.0'
 
 # Network
 mod 'example42-network',        '3.5.0'
-mod 'ajjahn-dns',				'2.1.0'
-mod 'dalen-dnsquery', 			'3.0.0'
 
 # r10k
 mod 'puppet-r10k',              '6.7.0'

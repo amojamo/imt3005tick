@@ -1,5 +1,5 @@
 ---
 message: "This node is using common data"
-influxdb::config_file: '/etc/influxdb/influxdb.conf'
 influxdb::admin_usr: 'admin'
 influxdb::admin_pwd: 'puppet123'
+
