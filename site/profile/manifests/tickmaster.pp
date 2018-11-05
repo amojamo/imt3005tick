@@ -3,33 +3,63 @@ class profile::tickmaster {
 
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
+    $telegraf_enabled = lookup('kapacitor::telegraf_enabled')
+    if $telegraf_enabled {
+      $telegraf_token = lookup('kapacitor::telegraf_token')
+      $telegraf_chatid = lookup('kapacitor::telegraf_chatid')
+    } else {
+      $telegraf_token = ""
+      $telegraf_chatid = ""
+    }
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure => latest,
     notify => Service['influxdb'],
   }
 
-  -> exec { 'Create admin user in InfluxDB':
-    command => "/usr/bin/influx -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"",
+  -> exec { 'Create self signed certificate and private key':
+    command => "/usr/bin/openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/influxdb-selfsigned.key -out /etc/ssl/influxdb-selfsigned.crt -subj \"/C=NO/ST=Oppland/L=Gjovik/O=NTNU/CN=Student\" -days 365", # lint:ignore:140chars
     require => [
       Package['influxdb'],
     ],
-    unless  => "/usr/bin/influx -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",  # lint:ignore:140chars
+    unless  => '/bin/ls /etc/ssl/ | /bin/grep influx',  # lint:ignore:140chars
+  }
 
+  -> file { ['/etc/ssl/influxdb-selfsigned.crt','/etc/ssl/influxdb-selfsigned.key']:
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    before => Exec['Create admin user in InfluxDB'],
+  }
+
+  -> exec { 'Create admin user in InfluxDB':
+    command => "/usr/bin/influx -ssl -unsafeSsl -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"", # lint:ignore:140chars
+    require => [
+      Package['influxdb'],
+    ],
+    unless  => "/usr/bin/influx -ssl -unsafeSsl -username \"${admin_usr}\" -password \'${admin_pwd}\' -execute \'SHOW USERS\' | tail -n+3 | grep ${admin_usr}",  # lint:ignore:140chars
   }
 
 # InfluxDB
-  ini_setting { 'influxdb':
-    ensure       => present,
-    require      => Package['influxdb'],
-    path         => '/etc/influxdb/influxdb.conf',
-    section      => 'http',
-    setting      => 'auth-enabled',
-    value        => true,
-    indent_char  => ' ',
-    indent_width => 2,
-    notify       => Service['influxdb'],
+  $defaults_influxdb = {
+    'ensure'          => present,
+    'require'         => Package['influxdb'],
+    'notify'          => Service['influxdb'],
+    'path'            => '/etc/influxdb/influxdb.conf',
+    'indent_char'     => ' ',
+    'indent_width'    => 2,
   }
+
+  $https_influxdb = {
+    'http'    => { # Section in config file
+      'https-enabled'      => true, # Setting in the given section
+      'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
+      'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
+      'auth-enabled'       => true,
+    }
+  }
+  create_ini_settings($https_influxdb, $defaults_influxdb)
 
 # Kapacitor
 
@@ -45,8 +75,10 @@ class profile::tickmaster {
   }
   $userpw_kapacitor = {
     'influxdb'    => {
+      'urls'      => "[\"https://localhost:8086\"]",
       'username'  => "\"${admin_usr}\"",
       'password'  => "\"${admin_pwd}\"",
+      'insecure-skip-verify' => true,
     }
   }
   create_ini_settings($userpw_kapacitor, $defaults_kapacitor)
@@ -68,10 +100,11 @@ class profile::tickmaster {
   }
   create_ini_settings($userpw_kapacitorsmtp, $defaults_kapacitorsmtp)
 
+
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
   $defaults_telegraf = {
-    'ensure'          => present,
+    'ensure'         => present,
     'require'        => Package['telegraf'],
     'notify'         => Service['telegraf'],
     'path'           => '/etc/telegraf/telegraf.conf',
@@ -81,9 +114,11 @@ class profile::tickmaster {
     'indent_width'   => 2,
   }
   $userpw_telegraf = {
-    'outputs.influxdb'  => {           #section of config file
-      'username'        => "\"${admin_usr}\"", #setting in config file
-      'password'        => "\"${admin_pwd}\"",   #setting in config file
+    'outputs.influxdb'  => {
+      'username'        => "\"${admin_usr}\"",
+      'password'        => "\"${admin_pwd}\"",
+      'urls'            => "[\"https://manager.star.wars:8086\"]",
+      'insecure_skip_verify' => true,
     }
   }
   create_ini_settings($userpw_telegraf, $defaults_telegraf)
