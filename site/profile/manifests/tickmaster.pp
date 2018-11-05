@@ -97,7 +97,7 @@ class profile::tickmaster {
   }
   create_ini_settings($userpw_kapacitorsmtp, $defaults_kapacitorsmtp)
 
-  if $telegram_enabled {
+  
     $defaults_telegram = {
     'ensure'          => present,
     'require'         => Package['kapacitor'],
@@ -106,12 +106,19 @@ class profile::tickmaster {
     'indent_char'     => ' ',
     'indent_width'    => 2,
   }
+  if $telegram_enabled {
   $telegram_kapacitor = {
     'telegram'    => {
       'enabled'   => $telegram_enabled,
       'token'     => "\"${telegram_token}\"",
       'chat-id'   => "\"${telegram_chatid}\"",
     }
+  } else {
+   $telegram_kapacitor = {
+    'telegram'    => {
+      'enabled'   => $telegram_enabled,
+      'token'     => "\"\"",
+      'chat-id'   => "\"\"",
   }
 
   create_ini_settings($telegram_kapacitor, $defaults_telegram)
