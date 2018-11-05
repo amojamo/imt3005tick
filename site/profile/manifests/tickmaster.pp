@@ -70,7 +70,7 @@ class profile::tickmaster {
       'urls'      => "[\"https://localhost:8086\"]",
       'username'  => "\"${admin_usr}\"",
       'password'  => "\"${admin_pwd}\"",
-      'insecure_skip_verify' => true,
+      'insecure-skip-verify' => true,
     }
   }
   create_ini_settings($userpw_kapacitor, $defaults_kapacitor)
