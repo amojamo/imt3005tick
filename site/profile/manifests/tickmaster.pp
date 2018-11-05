@@ -114,17 +114,16 @@ class profile::tickmaster {
       'chat-id'   => "\"${telegram_chatid}\"",
     }
   } 
-  }else {
+  } else {
    $telegram_kapacitor = {
     'telegram'    => {
       'enabled'   => $telegram_enabled,
       'token'     => "\"\"",
       'chat-id'   => "\"\"",
   }
-
-  create_ini_settings($telegram_kapacitor, $defaults_telegram)
  }
 }
+create_ini_settings($telegram_kapacitor, $defaults_telegram)
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
   $defaults_telegraf = {
