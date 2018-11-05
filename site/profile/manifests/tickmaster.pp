@@ -24,6 +24,7 @@ class profile::tickmaster {
     ],
     unless  => '/bin/ls /etc/ssl/ | /bin/grep influx',  # lint:ignore:140chars
   }
+<<<<<<< HEAD
 
   -> file { ['/etc/ssl/influxdb-selfsigned.crt','/etc/ssl/influxdb-selfsigned.key']:
     ensure => file,
@@ -33,6 +34,17 @@ class profile::tickmaster {
     before => Exec['Create admin user in InfluxDB'],
   }
 
+=======
+
+  -> file { ['/etc/ssl/influxdb-selfsigned.crt','/etc/ssl/influxdb-selfsigned.key']:
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    before => Exec['Create admin user in InfluxDB'],
+  }
+
+>>>>>>> ba9956c211dc45f5728708a3f0d3465a9be050b2
   -> exec { 'Create admin user in InfluxDB':
     command => "/usr/bin/influx -ssl -unsafeSsl -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"", # lint:ignore:140chars
     require => [
@@ -49,7 +61,20 @@ class profile::tickmaster {
     'path'            => '/etc/influxdb/influxdb.conf',
     'indent_char'     => ' ',
     'indent_width'    => 2,
+<<<<<<< HEAD
+=======
   }
+
+  $https_influxdb = {
+    'http'    => { # Section in config file
+      'https-enabled'      => true, # Setting in the given section
+      'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
+      'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
+      'auth-enabled'       => true,
+    }
+>>>>>>> ba9956c211dc45f5728708a3f0d3465a9be050b2
+  }
+  create_ini_settings($https_influxdb, $defaults_influxdb)
 
   $https_influxdb = {
     'http'    => { # Section in config file

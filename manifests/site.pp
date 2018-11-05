@@ -29,13 +29,13 @@ node default {
   # This is where you can declare classes for all nodes.
   # Example:
   include apt
-  include ::profile::base
+  include profile::base
 }
 
 node 'manager.star.wars' {
-	include ::role::tick_master
+  include ::role::tick_master
 }
 
-node 'worker-0.star.wars' {
-	include ::role::telegraf_node
+node /^worker/ {
+  include ::role::telegraf_node
 }
