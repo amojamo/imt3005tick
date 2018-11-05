@@ -1,1 +1,4 @@
 ---
+kapacitor::telegram_enabled = false
+kapacitor::telegram_token = ''
+kapacitor::telegram_chatid ''

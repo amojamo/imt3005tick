@@ -111,7 +111,7 @@ class profile::tickmaster {
   }
   $telegram_kapacitor = {
     'telegram'    => {
-      'enabled'   => ${telegram_enabled},
+      'enabled'   => $telegram_enabled,
       'token'     => "\"${telegram_token}\"",
       'chat-id'   => "\"${telegram_chatid}\"",
     }
