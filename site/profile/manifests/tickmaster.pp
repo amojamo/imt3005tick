@@ -24,7 +24,6 @@ class profile::tickmaster {
     ],
     unless  => '/bin/ls /etc/ssl/ | /bin/grep influx',  # lint:ignore:140chars
   }
-<<<<<<< HEAD
 
   -> file { ['/etc/ssl/influxdb-selfsigned.crt','/etc/ssl/influxdb-selfsigned.key']:
     ensure => file,
@@ -33,8 +32,6 @@ class profile::tickmaster {
     mode   => '0755',
     before => Exec['Create admin user in InfluxDB'],
   }
-
-=======
 
   -> file { ['/etc/ssl/influxdb-selfsigned.crt','/etc/ssl/influxdb-selfsigned.key']:
     ensure => file,
