@@ -3,13 +3,13 @@ class profile::tickmaster {
 
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
-    $telegraf_enabled = lookup('kapacitor::telegraf_enabled')
-    if $telegraf_enabled {
-      $telegraf_token = lookup('kapacitor::telegraf_token')
-      $telegraf_chatid = lookup('kapacitor::telegraf_chatid')
+    $telegram_enabled = lookup('kapacitor::telegram_enabled')
+    if $telegram_enabled {
+      $telegram_token = lookup('kapacitor::telegram_token')
+      $telegram_chatid = lookup('kapacitor::telegram_chatid')
     } else {
-      $telegraf_token = ""
-      $telegraf_chatid = ""
+      $telegram_token = ""
+      $telegram_chatid = ""
     }
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
@@ -100,7 +100,24 @@ class profile::tickmaster {
   }
   create_ini_settings($userpw_kapacitorsmtp, $defaults_kapacitorsmtp)
 
-
+  if $telegram_enabled {
+    $defaults_telegram = {
+    'ensure'          => present,
+    'require'         => Package['kapacitor'],
+    'notify'          => Service['kapacitor'],
+    'path'            => '/etc/kapacitor/kapacitor.conf',
+    'indent_char'     => ' ',
+    'indent_width'    => 2,
+  }
+  $telegram_kapacitor = {
+    'telegram'    => {
+      'enabled'   => ${telegram_enabled},
+      'token'     => "\"${telegram_token}\"",
+      'chat-id'   => "\"${telegram_chatid}\"",
+    }
+  }
+  create_ini_settings($telegram_kapacitor, $defaults_telegram)
+  }
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
   $defaults_telegraf = {
