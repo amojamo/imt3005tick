@@ -4,11 +4,12 @@ class profile::tickmaster {
     $admin_usr = lookup('influxdb::admin_usr')
     $admin_pwd = lookup('influxdb::admin_pwd')
     $telegram_enabled = lookup('kapacitor::telegram_enabled')
+
     if $telegram_enabled {
       $telegram_token = lookup('kapacitor::telegram_token')
       $telegram_chatid = lookup('kapacitor::telegram_chatid')
     }
-    
+
     package { ['influxdb','telegraf','kapacitor','chronograf']:
     ensure => latest,
     notify => Service['influxdb'],
@@ -97,7 +98,7 @@ class profile::tickmaster {
   }
   create_ini_settings($userpw_kapacitorsmtp, $defaults_kapacitorsmtp)
 
-  
+
     $defaults_telegram = {
     'ensure'          => present,
     'require'         => Package['kapacitor'],
@@ -113,15 +114,15 @@ class profile::tickmaster {
       'token'     => "\"${telegram_token}\"",
       'chat-id'   => "\"${telegram_chatid}\"",
     }
-  } 
+  }
   } else {
-   $telegram_kapacitor = {
+    $telegram_kapacitor = {
     'telegram'    => {
       'enabled'   => $telegram_enabled,
       'token'     => "\"\"",
       'chat-id'   => "\"\"",
+    }
   }
- }
 }
 create_ini_settings($telegram_kapacitor, $defaults_telegram)
 # Telegraf

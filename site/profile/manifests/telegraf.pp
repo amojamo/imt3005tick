@@ -1,4 +1,4 @@
-Installs and configures TICK
+# Installs and configures Telegraf
 class profile::telegraf {
 
     $admin_usr = lookup('influxdb::admin_usr')
