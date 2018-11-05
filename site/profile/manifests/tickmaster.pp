@@ -8,6 +8,9 @@ class profile::tickmaster {
     if $telegram_enabled {
       $telegram_token = lookup('kapacitor::telegram_token')
       $telegram_chatid = lookup('kapacitor::telegram_chatid')
+    } else {
+      $telegram_token = ''
+      $telegram_chatid = ''
     }
 
     package { ['influxdb','telegraf','kapacitor','chronograf']:
@@ -107,23 +110,24 @@ class profile::tickmaster {
     'indent_char'     => ' ',
     'indent_width'    => 2,
   }
+
   if $telegram_enabled {
   $telegram_kapacitor = {
     'telegram'    => {
       'enabled'   => $telegram_enabled,
       'token'     => "\"${telegram_token}\"",
       'chat-id'   => "\"${telegram_chatid}\"",
+      }
     }
-  }
   } else {
     $telegram_kapacitor = {
     'telegram'    => {
       'enabled'   => $telegram_enabled,
       'token'     => "\"\"",
       'chat-id'   => "\"\"",
+      }
     }
   }
-}
 create_ini_settings($telegram_kapacitor, $defaults_telegram)
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
