@@ -32,14 +32,6 @@ class profile::tickmaster {
     mode   => '0755',
     before => Exec['Create admin user in InfluxDB'],
   }
-
-  -> file { ['/etc/ssl/influxdb-selfsigned.crt','/etc/ssl/influxdb-selfsigned.key']:
-    ensure => file,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
-    before => Exec['Create admin user in InfluxDB'],
-  }
   -> exec { 'Create admin user in InfluxDB':
     command => "/usr/bin/influx -ssl -unsafeSsl -execute \"CREATE USER \"${admin_usr}\" WITH PASSWORD \'${admin_pwd}\' WITH ALL PRIVILEGES\"", # lint:ignore:140chars
     require => [
