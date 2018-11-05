@@ -60,15 +60,6 @@ class profile::tickmaster {
   }
   create_ini_settings($https_influxdb, $defaults_influxdb)
 
-  $https_influxdb = {
-    'http'    => { # Section in config file
-      'https-enabled'      => true, # Setting in the given section
-      'https-certificate'  => "\"/etc/ssl/influxdb-selfsigned.crt\"",
-      'https-private-key'  => "\"/etc/ssl/influxdb-selfsigned.key\"",
-      'auth-enabled'       => true,
-    }
-  }
-  create_ini_settings($https_influxdb, $defaults_influxdb)
 
 # Kapacitor
 
