@@ -113,7 +113,8 @@ class profile::tickmaster {
       'token'     => "\"${telegram_token}\"",
       'chat-id'   => "\"${telegram_chatid}\"",
     }
-  } else {
+  } 
+  }else {
    $telegram_kapacitor = {
     'telegram'    => {
       'enabled'   => $telegram_enabled,
@@ -122,6 +123,7 @@ class profile::tickmaster {
   }
 
   create_ini_settings($telegram_kapacitor, $defaults_telegram)
+ }
 }
 # Telegraf
 # Syntax from https://github.com/puppetlabs/puppetlabs-inifile
@@ -152,4 +154,4 @@ class profile::tickmaster {
     require => Package['influxdb'],
     before  => Exec['Create admin user in InfluxDB'],
     }
-  }
+}
