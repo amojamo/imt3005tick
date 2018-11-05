@@ -2,6 +2,6 @@
 message: "This node is per node data"
 influxdb::admin_usr: 'admin'
 influxdb::admin_pwd: 'puppet123'
-kapacitor::telegram_enabled: false
-kapacitor::telegram_token: ''
-kapacitor::telegram_chatid: ''
+kapacitor::telegram_enabled: true
+kapacitor::telegram_token: 'test'
+kapacitor::telegram_chatid: 'test'
